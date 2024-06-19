@@ -4,18 +4,20 @@
  */
 function memoize(fn) {
     
-  const cache = {};
-
-  return function (...args) {
-    const catchField = JSON.stringify(args);
-    if(cache.hasOwnProperty(catchField)){
-      console.log('inside memo')
-      return cache[catchField]
+   const cache = {};
+  
+   return function(...args) {
+    const key = JSON.stringify(args);
+    
+    if (key in cache) {
+      return cache[key];
     }
-    const result = fn(...args);
-    cache[catchField] = result;
+    
+    const result = fn.apply(this, args);
+    cache[key] = result;
+    
     return result;
-  };
+  }
 }
 
 
